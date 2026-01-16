@@ -24,6 +24,8 @@ namespace Api.DAO
             cmd.Parameters.AddWithValue("p_apellidos", cliente.Apellidos);
             cmd.Parameters.AddWithValue("p_email", cliente.Email);
             cmd.Parameters.AddWithValue("p_telefono", cliente.Telefono);
+            cmd.Parameters.AddWithValue("p_numero_documento", cliente.Documento);
+
 
             conn.Open();
             return cmd.ExecuteNonQuery();
