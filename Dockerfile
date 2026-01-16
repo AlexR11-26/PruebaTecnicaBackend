@@ -28,8 +28,8 @@ WORKDIR /app
 
 COPY --from=build /out .
 
-# Railway usa el puerto 8080
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
+# Railway usa el puerto 7079
+ENV ASPNETCORE_URLS=http://+:7079
+EXPOSE 7079
 
 ENTRYPOINT ["dotnet", "Api.WebApi.dll"]
