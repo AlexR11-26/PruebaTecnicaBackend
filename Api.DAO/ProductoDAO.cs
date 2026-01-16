@@ -68,6 +68,7 @@ namespace Api.DAO
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("p_id_categoria", p.CategoriaId);
             cmd.Parameters.AddWithValue("p_nombre", p.Nombre);
+            cmd.Parameters.AddWithValue("p_imagenUrl", p.ImagenUrl);
             cmd.Parameters.AddWithValue("p_precio", p.Precio);
             cmd.Parameters.AddWithValue("p_stock", p.Stock);
 
@@ -82,8 +83,7 @@ namespace Api.DAO
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("p_id_producto", p.IdProducto);
             cmd.Parameters.AddWithValue("p_id_categoria", p.CategoriaId);
-            cmd.Parameters.AddWithValue("p_nombre", p.Nombre);
-            cmd.Parameters.AddWithValue("p_imagenUrl", p.ImagenUrl);
+            cmd.Parameters.AddWithValue("p_nombre", p.Nombre);            
             cmd.Parameters.AddWithValue("p_precio", p.Precio);
             cmd.Parameters.AddWithValue("p_stock", p.Stock);
 
