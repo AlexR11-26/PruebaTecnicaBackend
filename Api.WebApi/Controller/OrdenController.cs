@@ -31,11 +31,28 @@ namespace Api.WebApi.Controllers
             return Ok(orden);
         }
 
-        // POST api/ordenes/insertar
         [HttpPost("insertar")]
-        public IActionResult InsertarOrden([FromBody] Orden orden)
+        public IActionResult InsertarOrden([FromBody] OrdenInsertar orden)
         {
-            return Ok(new { success = _handler.Insertar(orden) });
+            try
+            {
+                var resultado = _handler.Insertar(orden);
+
+                return Ok(new
+                {
+                    success = true,
+                    idOrden = resultado.idOrden,
+                    totalOrden = resultado.totalOrden
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
         }
 
         // DELETE api/ordenes/eliminar/5

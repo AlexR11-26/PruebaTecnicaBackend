@@ -69,14 +69,16 @@ namespace Api.DAO
         // =========================
         // INSERTAR ORDEN + DETALLE
         // =========================
-        public bool Insertar(Orden o)
+        public (int idOrden, decimal totalOrden) Insertar(OrdenInsertar o)
         {
             using var conn = new MySqlConnection(_connectionString);
             using var cmd = new MySqlCommand("sp_insertar_orden", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
+            // Parámetro del cliente
             cmd.Parameters.AddWithValue("p_id_cliente", o.IdCliente);
 
+            // Convertir lista de detalles a JSON
             var detalleJson = JsonSerializer.Serialize(
                 o.Detalles.Select(d => new {
                     id_producto = d.IdProducto,
@@ -84,10 +86,21 @@ namespace Api.DAO
                 })
             );
 
-            cmd.Parameters.AddWithValue("p_detalle", detalleJson);
+            var pDetalle = cmd.Parameters.Add("p_detalle", MySqlDbType.JSON);
+            pDetalle.Value = detalleJson;
 
             conn.Open();
-            return cmd.ExecuteNonQuery() > 0;
+
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                int idOrden = reader.GetInt32("id_orden");
+                decimal totalOrden = reader.GetDecimal("total_orden");
+                return (idOrden, totalOrden);
+            }
+
+            throw new Exception("No se pudo insertar la orden.");
         }
 
         public int Eliminar(int id)
